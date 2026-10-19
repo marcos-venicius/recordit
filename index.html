@@ -24,6 +24,11 @@
     </div>
 
     <div class="field">
+      <label for="format">Formato</label>
+      <select id="format"></select>
+    </div>
+
+    <div class="field">
       <label for="pickSource">O que gravar</label>
       <div class="row">
         <button id="pickSource">Escolher janela ou tela…</button>
@@ -40,6 +45,7 @@
       <button id="showFile" hidden>Mostrar arquivo</button>
     </div>
   </main>
+  <script src="node_modules/fix-webm-duration/fix-webm-duration.js"></script>
   <script src="renderer.js"></script>
 </body>
 </html>
