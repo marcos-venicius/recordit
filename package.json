@@ -1,0 +1,62 @@
+{
+  "name": "recordit",
+  "version": "0.1.0",
+  "description": "Gravador de tela minimalista para desktop (sem áudio)",
+  "main": "main.js",
+  "desktopName": "recordit.desktop",
+  "author": {
+    "name": "Marcos Sousa",
+    "email": "marcosdevelopment.business@gmail.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/marcos-venicius/recordit",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "icons": "node scripts/make-icons.js",
+    "dist": "electron-builder --linux"
+  },
+  "devDependencies": {
+    "electron": "^44.9.0",
+    "electron-builder": "^26.15.3"
+  },
+  "dependencies": {
+    "fix-webm-duration": "^1.0.6"
+  },
+  "build": {
+    "appId": "com.marcosvenicius.recordit",
+    "productName": "RecordIt",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "renderer.js",
+      "style.css",
+      "build/icon.png",
+      "node_modules/fix-webm-duration/fix-webm-duration.js"
+    ],
+    "linux": {
+      "target": [
+        "deb",
+        "AppImage"
+      ],
+      "category": "AudioVideo",
+      "icon": "build/icons",
+      "executableName": "recordit",
+      "maintainer": "Marcos Sousa <marcosdevelopment.business@gmail.com>",
+      "synopsis": "Gravador de tela minimalista (sem áudio)",
+      "desktop": {
+        "entry": {
+          "Name": "RecordIt",
+          "Comment": "Gravador de tela minimalista (sem áudio)",
+          "Keywords": "record;screen;gravar;tela;"
+        }
+      },
+      "syncDesktopName": true
+    }
+  }
+}
