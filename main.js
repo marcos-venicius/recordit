@@ -1,6 +1,9 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, desktopCapturer } = require('electron');
 const path = require('path');
 const fs = require('fs');
+
+// Captura de tela no Wayland via xdg-desktop-portal + PipeWire
+app.commandLine.appendSwitch('enable-features', 'WebRTCPipeWireCapturer');
 
 let win;
 
@@ -55,6 +58,19 @@ ipcMain.handle('pick-folder', async (_e, current) => {
   if (canceled || !filePaths.length) return null;
   saveSettings({ folder: filePaths[0] });
   return filePaths[0];
+});
+
+// No Wayland, getSources abre o seletor do sistema e devolve só a fonte escolhida
+ipcMain.handle('get-sources', async () => {
+  try {
+    const sources = await desktopCapturer.getSources({
+      types: ['window', 'screen'],
+      thumbnailSize: { width: 240, height: 135 },
+    });
+    return sources.map((s) => ({ id: s.id, name: s.name, thumbnail: s.thumbnail.toDataURL() }));
+  } catch {
+    return [];
+  }
 });
 
 app.whenReady().then(createWindow);

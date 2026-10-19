@@ -23,6 +23,16 @@
       <input id="name" placeholder="Opcional — padrão: app_data_hora" spellcheck="false">
     </div>
 
+    <div class="field">
+      <label for="pickSource">O que gravar</label>
+      <div class="row">
+        <button id="pickSource">Escolher janela ou tela…</button>
+        <span id="sourceName" class="muted ellipsis">Nenhuma fonte selecionada</span>
+      </div>
+      <div id="sources" class="grid" hidden></div>
+      <video id="preview" muted autoplay hidden></video>
+    </div>
+
     <p id="status" class="muted"></p>
   </main>
   <script src="renderer.js"></script>
