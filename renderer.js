@@ -1,6 +1,9 @@
 const $ = (id) => document.getElementById(id);
 
-const MIME_TYPE = 'video/webm;codecs=vp8';
+const FORMATS = [
+  { label: 'WebM (VP8)', ext: 'webm', mimeType: 'video/webm;codecs=vp8' },
+  { label: 'MP4 (H.264)', ext: 'mp4', mimeType: 'video/mp4;codecs=avc1' },
+].filter((f) => MediaRecorder.isTypeSupported(f.mimeType));
 const BITRATE = 1_500_000;
 
 let settings = {};
@@ -8,6 +11,7 @@ let stream = null;
 let sourceName = '';
 let recorder = null;
 let chunks = [];
+let format = FORMATS[0];
 let startTime = 0;
 let lastFile = null;
 
@@ -21,6 +25,7 @@ function updateButtons() {
   $('record').disabled = busy || !stream || !settings.folder;
   $('pickSource').disabled = busy;
   $('pickFolder').disabled = busy;
+  $('format').disabled = busy;
 }
 
 function releaseSource() {
@@ -81,7 +86,8 @@ function showSources(sources) {
 
 function startRecording() {
   chunks = [];
-  recorder = new MediaRecorder(stream, { mimeType: MIME_TYPE, videoBitsPerSecond: BITRATE });
+  format = FORMATS[$('format').selectedIndex];
+  recorder = new MediaRecorder(stream, { mimeType: format.mimeType, videoBitsPerSecond: BITRATE });
   recorder.addEventListener('dataavailable', (e) => e.data.size && chunks.push(e.data));
   recorder.addEventListener('stop', saveRecording);
   startTime = Date.now();
@@ -98,12 +104,14 @@ function stopRecording() {
 
 async function saveRecording() {
   setStatus('Salvando…');
-  const blob = new Blob(chunks, { type: MIME_TYPE });
+  let blob = new Blob(chunks, { type: format.mimeType });
   chunks = [];
+  // WebM do MediaRecorder sai sem duração (sem seek); grava a duração no cabeçalho
+  if (format.ext === 'webm') blob = await ysFixWebmDuration(blob, Date.now() - startTime, { logger: false });
   try {
     lastFile = await api.saveRecording({
       data: await blob.arrayBuffer(),
-      ext: 'webm',
+      ext: format.ext,
       folder: settings.folder,
       name: $('name').value,
       sourceName,
@@ -134,6 +142,10 @@ $('pickSource').addEventListener('click', async () => {
   showSources(sources);
 });
 
+$('format').addEventListener('change', () => {
+  api.saveSettings({ format: FORMATS[$('format').selectedIndex].ext });
+});
+
 $('record').addEventListener('click', startRecording);
 $('showFile').addEventListener('click', () => api.showInFolder(lastFile));
 api.onStopRequest(stopRecording);
@@ -141,6 +153,8 @@ api.onStopRequest(stopRecording);
 async function init() {
   settings = await api.getSettings();
   $('folder').value = settings.folder;
+  $('format').replaceChildren(...FORMATS.map((f) => new Option(f.label, f.ext)));
+  if (FORMATS.some((f) => f.ext === settings.format)) $('format').value = settings.format;
   updateButtons();
 }
 
