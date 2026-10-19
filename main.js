@@ -5,6 +5,8 @@ const fs = require('fs');
 // Captura de tela no Wayland via xdg-desktop-portal + PipeWire
 app.commandLine.appendSwitch('enable-features', 'WebRTCPipeWireCapturer');
 
+const APP_ICON = path.join(__dirname, 'build', 'icon.png');
+
 let win;
 let tray;
 let recording = false;
@@ -105,6 +107,7 @@ function createWindow() {
     minWidth: 400,
     minHeight: 480,
     title: 'RecordIt',
+    icon: APP_ICON,
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -124,7 +127,7 @@ function createWindow() {
 }
 
 function createTray() {
-  icons.idle = dotIcon([140, 140, 150]);
+  icons.idle = nativeImage.createFromPath(APP_ICON).resize({ width: 32, height: 32 });
   icons.recording = dotIcon([229, 72, 77]);
   tray = new Tray(icons.idle);
   tray.on('click', () => (recording ? requestStop() : showWindow()));
