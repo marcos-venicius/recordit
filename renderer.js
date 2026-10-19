@@ -1,8 +1,8 @@
 const $ = (id) => document.getElementById(id);
 
 const FORMATS = [
-  { label: 'WebM (VP8)', ext: 'webm', mimeType: 'video/webm;codecs=vp8' },
   { label: 'MP4 (H.264)', ext: 'mp4', mimeType: 'video/mp4;codecs=avc1' },
+  { label: 'WebM (VP8)', ext: 'webm', mimeType: 'video/webm;codecs=vp8' },
 ].filter((f) => MediaRecorder.isTypeSupported(f.mimeType));
 const BITRATE = 1_500_000;
 
@@ -34,7 +34,7 @@ function releaseSource() {
   sourceName = '';
   $('preview').srcObject = null;
   $('preview').hidden = true;
-  $('sourceName').textContent = 'Nenhuma fonte selecionada';
+  $('sourceName').textContent = 'No source selected';
   updateButtons();
 }
 
@@ -53,14 +53,14 @@ async function selectSource(source) {
       },
     });
   } catch (err) {
-    setStatus(`Não foi possível capturar a fonte: ${err.message}`);
+    setStatus(`Could not capture source: ${err.message}`);
     return;
   }
   sourceName = source.name;
-  $('sourceName').textContent = source.name || 'Fonte selecionada';
+  $('sourceName').textContent = source.name || 'Selected source';
   $('preview').srcObject = stream;
   $('preview').hidden = false;
-  // Fonte encerrada (ex.: janela fechada): finaliza a gravação ou descarta a seleção
+  // Source ended (e.g. window closed): finish the recording or drop the selection
   stream.getVideoTracks()[0].addEventListener('ended', () => (recorder ? stopRecording() : releaseSource()));
   setStatus('');
   updateButtons();
@@ -93,7 +93,7 @@ function startRecording() {
   startTime = Date.now();
   recorder.start(1000);
   $('showFile').hidden = true;
-  setStatus('Gravando…');
+  setStatus('Recording…');
   updateButtons();
   api.setRecording(true);
 }
@@ -103,10 +103,10 @@ function stopRecording() {
 }
 
 async function saveRecording() {
-  setStatus('Salvando…');
+  setStatus('Saving…');
   let blob = new Blob(chunks, { type: format.mimeType });
   chunks = [];
-  // WebM do MediaRecorder sai sem duração (sem seek); grava a duração no cabeçalho
+  // MediaRecorder WebM has no duration (not seekable); write it into the header
   if (format.ext === 'webm') blob = await ysFixWebmDuration(blob, Date.now() - startTime, { logger: false });
   try {
     lastFile = await api.saveRecording({
@@ -117,10 +117,10 @@ async function saveRecording() {
       sourceName,
       startTime,
     });
-    setStatus(`Salvo em ${lastFile}`);
+    setStatus(`Saved to ${lastFile}`);
     $('showFile').hidden = false;
   } catch (err) {
-    setStatus(`Erro ao salvar: ${err.message}`);
+    setStatus(`Failed to save: ${err.message}`);
   } finally {
     recorder = null;
     releaseSource();
@@ -137,7 +137,7 @@ $('pickFolder').addEventListener('click', async () => {
 
 $('pickSource').addEventListener('click', async () => {
   const sources = await api.getSources();
-  if (!sources.length) return setStatus('Nenhuma fonte selecionada.');
+  if (!sources.length) return setStatus('No source selected.');
   if (sources.length === 1) return selectSource(sources[0]);
   showSources(sources);
 });

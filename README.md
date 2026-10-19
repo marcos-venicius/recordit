@@ -1,28 +1,28 @@
 # RecordIt
 
-Gravador de tela minimalista para desktop Linux (sem áudio).
+Minimal desktop screen recorder for Linux (no audio).
 
-## Uso
+## Usage
 
-1. Escolha a **pasta de destino** e, opcionalmente, o **nome do arquivo**.
-2. Escolha o **formato** (WebM ou MP4).
-3. Clique em **Escolher janela ou tela…** — no Wayland abre o seletor do sistema.
-4. Clique em **Gravar**: a janela some e o ícone na bandeja fica vermelho.
-5. Clique no ícone da bandeja (ou em *Parar gravação* no menu) para finalizar e salvar.
+1. Pick the **save folder** and, optionally, a **file name**.
+2. Pick the **format** (MP4 or WebM).
+3. Click **Choose window or screen…** — on Wayland this opens the system picker.
+4. Click **Record**: the window hides and the tray icon turns red.
+5. Click the tray icon (or *Stop recording* in its menu) to finish and save.
 
-Sem nome, o arquivo é salvo como `<app>_<AAAA-MM-DD_HH-mm-ss>.<ext>`.
+Without a name, the file is saved as `<app>_<YYYY-MM-DD_HH-mm-ss>.<ext>`.
 
-## Instalação
+## Install
 
 ```sh
 npm install
 npm run dist
-sudo apt install ./dist/recordit_0.1.0_amd64.deb   # ou execute dist/RecordIt-0.1.0.AppImage
+sudo apt install ./dist/recordit_0.1.0_amd64.deb   # or run dist/RecordIt-0.1.0.AppImage
 ```
 
-## Desenvolvimento
+## Development
 
 ```sh
-npm start         # executa o app
-npm run icons     # regenera os ícones em build/
+npm start         # run the app
+npm run icons     # regenerate the icons in build/
 ```
