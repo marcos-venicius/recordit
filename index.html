@@ -2,10 +2,29 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' blob: mediastream:">
   <title>RecordIt</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>RecordIt</h1>
+  <main>
+    <h1><span class="dot"></span>RecordIt</h1>
+
+    <div class="field">
+      <label for="folder">Pasta de destino</label>
+      <div class="row">
+        <input id="folder" readonly>
+        <button id="pickFolder">Escolher…</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="name">Nome do arquivo</label>
+      <input id="name" placeholder="Opcional — padrão: app_data_hora" spellcheck="false">
+    </div>
+
+    <p id="status" class="muted"></p>
+  </main>
+  <script src="renderer.js"></script>
 </body>
 </html>
