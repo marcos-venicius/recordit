@@ -53,7 +53,7 @@ h1 {
 .field { display: flex; flex-direction: column; gap: 6px; }
 label { font-weight: 600; }
 .row { display: flex; gap: 8px; align-items: center; }
-.row > input { flex: 1; min-width: 0; }
+.row > input, .row > p { flex: 1; min-width: 0; }
 .muted { color: var(--muted); margin: 0; }
 
 input, select, button {
