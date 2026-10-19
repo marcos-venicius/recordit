@@ -54,6 +54,7 @@ h1 {
 label { font-weight: 600; }
 .row { display: flex; gap: 8px; align-items: center; }
 .row > input, .row > p { flex: 1; min-width: 0; }
+.grow { flex: 1; min-width: 0; }
 .muted { color: var(--muted); margin: 0; }
 
 input, select, button {

@@ -4,7 +4,12 @@ const FORMATS = [
   { label: 'MP4 (H.264)', ext: 'mp4', mimeType: 'video/mp4;codecs=avc1' },
   { label: 'WebM (VP8)', ext: 'webm', mimeType: 'video/webm;codecs=vp8' },
 ].filter((f) => MediaRecorder.isTypeSupported(f.mimeType));
-const BITRATE = 1_500_000;
+const QUALITIES = [
+  { label: 'Low', value: 'low', bitrate: 1_500_000 },
+  { label: 'Medium', value: 'medium', bitrate: 4_000_000 },
+  { label: 'High', value: 'high', bitrate: 8_000_000 },
+];
+const DEFAULT_QUALITY = 'medium';
 
 let settings = {};
 let stream = null;
@@ -26,6 +31,7 @@ function updateButtons() {
   $('pickSource').disabled = busy;
   $('pickFolder').disabled = busy;
   $('format').disabled = busy;
+  $('quality').disabled = busy;
 }
 
 function releaseSource() {
@@ -48,7 +54,7 @@ async function selectSource(source) {
         mandatory: {
           chromeMediaSource: 'desktop',
           chromeMediaSourceId: source.id,
-          maxFrameRate: 15,
+          maxFrameRate: 30,
         },
       },
     });
@@ -87,7 +93,8 @@ function showSources(sources) {
 function startRecording() {
   chunks = [];
   format = FORMATS[$('format').selectedIndex];
-  recorder = new MediaRecorder(stream, { mimeType: format.mimeType, videoBitsPerSecond: BITRATE });
+  const { bitrate } = QUALITIES[$('quality').selectedIndex];
+  recorder = new MediaRecorder(stream, { mimeType: format.mimeType, videoBitsPerSecond: bitrate });
   recorder.addEventListener('dataavailable', (e) => e.data.size && chunks.push(e.data));
   recorder.addEventListener('stop', saveRecording);
   startTime = Date.now();
@@ -146,6 +153,10 @@ $('format').addEventListener('change', () => {
   api.saveSettings({ format: FORMATS[$('format').selectedIndex].ext });
 });
 
+$('quality').addEventListener('change', () => {
+  api.saveSettings({ quality: $('quality').value });
+});
+
 $('record').addEventListener('click', startRecording);
 $('showFile').addEventListener('click', () => api.showInFolder(lastFile));
 api.onStopRequest(stopRecording);
@@ -155,6 +166,8 @@ async function init() {
   $('folder').value = settings.folder;
   $('format').replaceChildren(...FORMATS.map((f) => new Option(f.label, f.ext)));
   if (FORMATS.some((f) => f.ext === settings.format)) $('format').value = settings.format;
+  $('quality').replaceChildren(...QUALITIES.map((q) => new Option(q.label, q.value)));
+  $('quality').value = QUALITIES.some((q) => q.value === settings.quality) ? settings.quality : DEFAULT_QUALITY;
   updateButtons();
 }
 
