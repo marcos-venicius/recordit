@@ -1,8 +1,8 @@
 const $ = (id) => document.getElementById(id);
 
 const FORMATS = [
-  { label: 'WebM (VP8)', ext: 'webm', mimeType: 'video/webm;codecs=vp8' },
   { label: 'MP4 (H.264)', ext: 'mp4', mimeType: 'video/mp4;codecs=avc1' },
+  { label: 'WebM (VP8)', ext: 'webm', mimeType: 'video/webm;codecs=vp8' },
 ].filter((f) => MediaRecorder.isTypeSupported(f.mimeType));
 const BITRATE = 1_500_000;
 
