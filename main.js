@@ -141,6 +141,8 @@ ipcMain.handle('get-settings', () => {
   return { ...settings, folder: settings.folder || app.getPath('videos') };
 });
 
+ipcMain.handle('get-version', () => app.getVersion());
+
 ipcMain.handle('save-settings', (_e, patch) => saveSettings(patch));
 
 ipcMain.handle('pick-folder', async (_e, current) => {

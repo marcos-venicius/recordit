@@ -164,6 +164,7 @@ $('showFile').addEventListener('click', () => api.showInFolder(lastFile));
 api.onStopRequest(stopRecording);
 
 async function init() {
+  $('version').textContent = `v${await api.getVersion()}`;
   settings = await api.getSettings();
   $('folder').value = settings.folder;
   $('format').replaceChildren(...FORMATS.map((f) => new Option(f.label, f.ext)));
