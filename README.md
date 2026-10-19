@@ -17,7 +17,7 @@ Without a name, the file is saved as `<app>_<YYYY-MM-DD_HH-mm-ss>.<ext>`.
 ```sh
 npm install
 npm run dist
-sudo apt install ./dist/recordit_0.2.0_amd64.deb   # or run dist/RecordIt-0.2.0.AppImage
+sudo apt install ./dist/recordit_0.2.1_amd64.deb   # or run dist/RecordIt-0.2.1.AppImage
 ```
 
 ## Development
