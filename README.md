@@ -5,7 +5,7 @@ Minimal desktop screen recorder for Linux (no audio).
 ## Usage
 
 1. Pick the **save folder** and, optionally, a **file name**.
-2. Pick the **format** (MP4 or WebM).
+2. Pick the **format** (MP4 or WebM) and **quality** (Low, Medium or High).
 3. Click **Choose window or screen…** — on Wayland this opens the system picker.
 4. Click **Record**: the window hides and the tray icon turns red.
 5. Click the tray icon (or *Stop recording* in its menu) to finish and save.
