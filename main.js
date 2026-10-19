@@ -113,6 +113,8 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
+      // The window is hidden while recording; throttling would make MediaRecorder drop/stall frames
+      backgroundThrottling: false,
     },
   });
   win.setMenu(null);

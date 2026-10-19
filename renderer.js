@@ -99,6 +99,8 @@ function startRecording() {
   recorder.addEventListener('stop', saveRecording);
   startTime = Date.now();
   recorder.start(1000);
+  // Nobody sees the preview while recording; don't spend CPU rendering it
+  $('preview').pause();
   $('showFile').hidden = true;
   setStatus('Recording…');
   updateButtons();
