@@ -1,4 +1,4 @@
-// Gera os ícones PNG do app (sem dependências): fundo escuro arredondado + bolinha vermelha de "rec"
+// Generates the app PNG icons (no dependencies): dark rounded background + red "rec" dot
 const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
@@ -49,7 +49,7 @@ function png(size, pixel) {
 
 const clamp = (v) => Math.max(0, Math.min(1, v));
 
-// Distância com sinal até um quadrado de cantos arredondados centrado na origem
+// Signed distance to a rounded square centered at the origin
 function roundedRect(x, y, half, radius) {
   const qx = Math.abs(x) - half + radius;
   const qy = Math.abs(y) - half + radius;
@@ -78,4 +78,4 @@ function icon(size) {
 fs.mkdirSync(path.join(OUT, 'icons'), { recursive: true });
 for (const size of SIZES) fs.writeFileSync(path.join(OUT, 'icons', `${size}x${size}.png`), icon(size));
 fs.copyFileSync(path.join(OUT, 'icons', '512x512.png'), path.join(OUT, 'icon.png'));
-console.log(`Ícones gerados em ${OUT}`);
+console.log(`Icons written to ${OUT}`);

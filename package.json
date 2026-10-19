@@ -1,7 +1,7 @@
 {
   "name": "recordit",
   "version": "0.1.0",
-  "description": "Gravador de tela minimalista para desktop (sem áudio)",
+  "description": "Minimal desktop screen recorder (no audio)",
   "main": "main.js",
   "desktopName": "recordit.desktop",
   "author": {
@@ -48,12 +48,12 @@
       "icon": "build/icons",
       "executableName": "recordit",
       "maintainer": "Marcos Sousa <marcosdevelopment.business@gmail.com>",
-      "synopsis": "Gravador de tela minimalista (sem áudio)",
+      "synopsis": "Minimal screen recorder (no audio)",
       "desktop": {
         "entry": {
           "Name": "RecordIt",
-          "Comment": "Gravador de tela minimalista (sem áudio)",
-          "Keywords": "record;screen;gravar;tela;"
+          "Comment": "Minimal screen recorder (no audio)",
+          "Keywords": "record;screen;capture;video;"
         }
       },
       "syncDesktopName": true

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self' blob: mediastream:">
@@ -11,38 +11,38 @@
     <h1><span class="dot"></span>RecordIt</h1>
 
     <div class="field">
-      <label for="folder">Pasta de destino</label>
+      <label for="folder">Save to</label>
       <div class="row">
         <input id="folder" readonly>
-        <button id="pickFolder">Escolher…</button>
+        <button id="pickFolder">Browse…</button>
       </div>
     </div>
 
     <div class="field">
-      <label for="name">Nome do arquivo</label>
-      <input id="name" placeholder="Opcional — padrão: app_data_hora" spellcheck="false">
+      <label for="name">File name</label>
+      <input id="name" placeholder="Optional — default: app_date_time" spellcheck="false">
     </div>
 
     <div class="field">
-      <label for="format">Formato</label>
+      <label for="format">Format</label>
       <select id="format"></select>
     </div>
 
     <div class="field">
-      <label for="pickSource">O que gravar</label>
+      <label for="pickSource">Source</label>
       <div class="row">
-        <button id="pickSource">Escolher janela ou tela…</button>
-        <span id="sourceName" class="muted ellipsis">Nenhuma fonte selecionada</span>
+        <button id="pickSource">Choose window or screen…</button>
+        <span id="sourceName" class="muted ellipsis">No source selected</span>
       </div>
       <div id="sources" class="grid" hidden></div>
       <video id="preview" muted autoplay hidden></video>
     </div>
 
-    <button id="record" class="primary" disabled>● Gravar</button>
+    <button id="record" class="primary" disabled>● Record</button>
 
     <div class="row">
       <p id="status" class="muted ellipsis"></p>
-      <button id="showFile" hidden>Mostrar arquivo</button>
+      <button id="showFile" hidden>Show file</button>
     </div>
   </main>
   <script src="node_modules/fix-webm-duration/fix-webm-duration.js"></script>

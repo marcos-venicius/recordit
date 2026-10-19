@@ -2,7 +2,7 @@ const { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain, dialog, desktopCap
 const path = require('path');
 const fs = require('fs');
 
-// Captura de tela no Wayland via xdg-desktop-portal + PipeWire
+// Screen capture on Wayland via xdg-desktop-portal + PipeWire
 app.commandLine.appendSwitch('enable-features', 'WebRTCPipeWireCapturer');
 
 const APP_ICON = path.join(__dirname, 'build', 'icon.png');
@@ -42,7 +42,7 @@ function timestamp(date) {
     `${p(date.getHours())}-${p(date.getMinutes())}-${p(date.getSeconds())}`;
 }
 
-// "Documento - Visual Studio Code" -> "Visual Studio Code"
+// "Document - Visual Studio Code" -> "Visual Studio Code"
 const appName = (sourceName) => String(sourceName || '').split(/\s[-–—|]\s/).pop();
 
 function outputPath({ folder, name, sourceName, startTime, ext }) {
@@ -52,7 +52,7 @@ function outputPath({ folder, name, sourceName, startTime, ext }) {
   return file;
 }
 
-// Bolinha desenhada em código (BGRA pré-multiplicado), sem arquivos de imagem
+// Dot drawn in code (premultiplied BGRA), no image files
 function dotIcon([r, g, b], size = 32) {
   const buf = Buffer.alloc(size * size * 4);
   const c = (size - 1) / 2;
@@ -83,13 +83,13 @@ function requestStop() {
 
 function updateTray() {
   tray.setImage(recording ? icons.recording : icons.idle);
-  tray.setToolTip(recording ? 'RecordIt — gravando (clique para parar)' : 'RecordIt');
+  tray.setToolTip(recording ? 'RecordIt — recording (click to stop)' : 'RecordIt');
   tray.setContextMenu(
     Menu.buildFromTemplate([
-      { label: 'Parar gravação', enabled: recording, click: requestStop },
-      { label: 'Mostrar janela', click: showWindow },
+      { label: 'Stop recording', enabled: recording, click: requestStop },
+      { label: 'Show window', click: showWindow },
       { type: 'separator' },
-      { label: 'Sair', click: quit },
+      { label: 'Quit', click: quit },
     ]),
   );
 }
@@ -117,7 +117,7 @@ function createWindow() {
   });
   win.setMenu(null);
   win.loadFile('index.html');
-  // Durante a gravação, fechar a janela só a esconde; o tray continua ativo
+  // While recording, closing the window only hides it; the tray stays active
   win.on('close', (e) => {
     if (recording && !quitting) {
       e.preventDefault();
@@ -143,7 +143,7 @@ ipcMain.handle('save-settings', (_e, patch) => saveSettings(patch));
 
 ipcMain.handle('pick-folder', async (_e, current) => {
   const { canceled, filePaths } = await dialog.showOpenDialog(win, {
-    title: 'Pasta de destino',
+    title: 'Save to',
     defaultPath: current,
     properties: ['openDirectory', 'createDirectory'],
   });
@@ -152,7 +152,7 @@ ipcMain.handle('pick-folder', async (_e, current) => {
   return filePaths[0];
 });
 
-// No Wayland, getSources abre o seletor do sistema e devolve só a fonte escolhida
+// On Wayland, getSources opens the system picker and returns only the chosen source
 ipcMain.handle('get-sources', async () => {
   try {
     const sources = await desktopCapturer.getSources({
