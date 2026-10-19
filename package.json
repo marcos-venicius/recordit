@@ -1,0 +1,18 @@
+{
+  "name": "recordit",
+  "version": "0.1.0",
+  "description": "Gravador de tela minimalista para desktop (sem áudio)",
+  "main": "main.js",
+  "author": {
+    "name": "Marcos Sousa",
+    "email": "marcosdevelopment.business@gmail.com"
+  },
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^44.9.0"
+  }
+}
